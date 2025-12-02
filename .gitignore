@@ -1,0 +1,19 @@
+﻿# Build
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# Others
+*.cache
+*.db
+*.ide
+*.opendb
