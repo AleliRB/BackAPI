@@ -27,9 +27,7 @@ namespace ProyectoAPI.Controllers
                     s.IdSalida,
                     s.DestinoSalida,
                     s.FechaSalida,
-                    s.FechaDevolucion,
-                    s.ResponsableDevol,
-                    s.GeneradorSalida,
+                    
                     IdEmp = s.IdEmp,
                     EmpleadoNombre = s.Empleado != null ? s.Empleado.Nombre + " " + s.Empleado.Apellido : ""
                 })
@@ -51,9 +49,7 @@ namespace ProyectoAPI.Controllers
                     s.IdSalida,
                     s.DestinoSalida,
                     s.FechaSalida,
-                    s.FechaDevolucion,
-                    s.ResponsableDevol,
-                    s.GeneradorSalida,
+               
                     IdEmp = s.IdEmp,
                     EmpleadoNombre = s.Empleado != null ? s.Empleado.Nombre + " " + s.Empleado.Apellido : "",
                     Detalles = s.DetallesSalidas!.Select(ds => new
@@ -89,13 +85,11 @@ namespace ProyectoAPI.Controllers
         {
             var salidas = await context.Salidas
                 .Include(s => s.Empleado)
-                .Where(s => s.FechaDevolucion == null || s.FechaDevolucion > DateTime.Now)
                 .Select(s => new
                 {
                     s.IdSalida,
                     s.DestinoSalida,
                     s.FechaSalida,
-                    s.FechaDevolucion,
                     EmpleadoNombre = s.Empleado != null ? s.Empleado.Nombre + " " + s.Empleado.Apellido : ""
                 })
                 .ToListAsync();
@@ -145,7 +139,7 @@ namespace ProyectoAPI.Controllers
                 return NotFound();
             }
 
-            salida.FechaDevolucion = fechaDevolucion;
+          
 
             // Actualizar stock de productos
             if (salida.DetallesSalidas != null)

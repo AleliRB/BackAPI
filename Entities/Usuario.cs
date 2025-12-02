@@ -12,7 +12,7 @@ namespace ProyectoAPI.Entities
         public required string Nombre { get; set; }
 
         [StringLength(255)]
-        public required string ContraseñaHash { get; set; } // NUNCA "Contraseña"
+        public required string ContrasenaHash { get; set; } // NUNCA "Contraseña"
 
         [StringLength(50)]
         public required string TipoUsuario { get; set; } // Admin, Secretario, Almacenero

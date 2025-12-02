@@ -13,13 +13,6 @@ namespace ProyectoAPI.Entities
 
         public DateTime FechaSalida { get; set; }
 
-        public DateTime? FechaDevolucion { get; set; }
-
-        [StringLength(100)]
-        public required string ResponsableDevol { get; set; }
-
-        [StringLength(100)]
-        public required string GeneradorSalida { get; set; }
 
         // Relación con Empleado
         public int IdEmp { get; set; }

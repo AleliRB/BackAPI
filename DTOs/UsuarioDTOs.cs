@@ -3,7 +3,7 @@
     public class UsuarioCreacionDTO
     {
         public required string Nombre { get; set; }
-        public required string Contraseña { get; set; }
+        public required string Contrasena { get; set; }
         public required string TipoUsuario { get; set; }
         public int IdEmp { get; set; }
     }
@@ -21,6 +21,6 @@
     public class UsuarioLoginDTO
     {
         public required string Nombre { get; set; }
-        public required string Contraseña { get; set; }
+        public required string Contrasena { get; set; }
     }
 }
