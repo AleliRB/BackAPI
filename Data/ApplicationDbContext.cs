@@ -80,8 +80,7 @@ namespace ProyectoAPI.Data
             modelBuilder.Entity<TipoEmpleado>().HasData(
                 new TipoEmpleado { IdTipEmp = 1, Nombre = "Administrador" },
                 new TipoEmpleado { IdTipEmp = 2, Nombre = "Secretario" },
-                new TipoEmpleado { IdTipEmp = 3, Nombre = "Almacenero" },
-                new TipoEmpleado { IdTipEmp = 4, Nombre = "Vendedor" }
+                new TipoEmpleado { IdTipEmp = 3, Nombre = "Almacenero" }
             );
 
             // Seed data inicial - Categorías

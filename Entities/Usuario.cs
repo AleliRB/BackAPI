@@ -18,6 +18,8 @@ namespace ProyectoAPI.Entities
         public required string TipoUsuario { get; set; } // Admin, Secretario, Almacenero
 
         public bool EstadoUser { get; set; } = true;
+        public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
+        public DateTime? UltimoAcceso { get; set; }
 
         // Relación 1:1 con Empleado
         public int IdEmp { get; set; }
