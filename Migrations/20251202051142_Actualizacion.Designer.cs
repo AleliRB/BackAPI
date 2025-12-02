@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProyectoAPI.Data;
 
@@ -11,9 +12,11 @@ using ProyectoAPI.Data;
 namespace ProyectoAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251202051142_Actualizacion")]
+    partial class Actualizacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,28 +41,6 @@ namespace ProyectoAPI.Migrations
                     b.HasKey("IdCat");
 
                     b.ToTable("Categorias");
-
-                    b.HasData(
-                        new
-                        {
-                            IdCat = 1,
-                            Descripcion = "Electrónica"
-                        },
-                        new
-                        {
-                            IdCat = 2,
-                            Descripcion = "Ropa"
-                        },
-                        new
-                        {
-                            IdCat = 3,
-                            Descripcion = "Alimentos"
-                        },
-                        new
-                        {
-                            IdCat = 4,
-                            Descripcion = "Juguetes"
-                        });
                 });
 
             modelBuilder.Entity("ProyectoAPI.Entities.DetalleSalida", b =>
@@ -67,18 +48,18 @@ namespace ProyectoAPI.Migrations
                     b.Property<int>("IdSalida")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdProducto")
-                        .HasColumnType("int");
-
                     b.Property<string>("CodProducto")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("IdProducto")
+                        .HasColumnType("int");
+
                     b.Property<int>("StockSalida")
                         .HasColumnType("int");
 
-                    b.HasKey("IdSalida", "IdProducto");
+                    b.HasKey("IdSalida");
 
                     b.HasIndex("IdProducto");
 
@@ -264,28 +245,6 @@ namespace ProyectoAPI.Migrations
                     b.HasKey("IdTipEmp");
 
                     b.ToTable("TiposEmpleado");
-
-                    b.HasData(
-                        new
-                        {
-                            IdTipEmp = 1,
-                            Nombre = "Administrador"
-                        },
-                        new
-                        {
-                            IdTipEmp = 2,
-                            Nombre = "Secretario"
-                        },
-                        new
-                        {
-                            IdTipEmp = 3,
-                            Nombre = "Almacenero"
-                        },
-                        new
-                        {
-                            IdTipEmp = 4,
-                            Nombre = "Vendedor"
-                        });
                 });
 
             modelBuilder.Entity("ProyectoAPI.Entities.Usuario", b =>
@@ -330,7 +289,7 @@ namespace ProyectoAPI.Migrations
                     b.HasOne("ProyectoAPI.Entities.Producto", "Producto")
                         .WithMany("DetallesSalidas")
                         .HasForeignKey("IdProducto")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ProyectoAPI.Entities.Salida", "Salida")
@@ -349,7 +308,7 @@ namespace ProyectoAPI.Migrations
                     b.HasOne("ProyectoAPI.Entities.TipoEmpleado", "TipoEmpleado")
                         .WithMany("Empleados")
                         .HasForeignKey("IdTipEmp")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("TipoEmpleado");
@@ -360,13 +319,13 @@ namespace ProyectoAPI.Migrations
                     b.HasOne("ProyectoAPI.Entities.Categoria", "Categoria")
                         .WithMany("Productos")
                         .HasForeignKey("IdCategoria")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ProyectoAPI.Entities.Proveedor", "Proveedor")
                         .WithMany("Productos")
                         .HasForeignKey("IdProveedor")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Categoria");
@@ -379,7 +338,7 @@ namespace ProyectoAPI.Migrations
                     b.HasOne("ProyectoAPI.Entities.Empleado", "Empleado")
                         .WithMany("Salidas")
                         .HasForeignKey("IdEmp")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Empleado");
@@ -390,7 +349,7 @@ namespace ProyectoAPI.Migrations
                     b.HasOne("ProyectoAPI.Entities.Empleado", "Empleado")
                         .WithOne("Usuario")
                         .HasForeignKey("ProyectoAPI.Entities.Usuario", "IdEmp")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Empleado");
