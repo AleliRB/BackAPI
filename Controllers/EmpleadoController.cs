@@ -58,7 +58,7 @@ namespace ProyectoAPI.Controllers
                     Direccion = e.Direccion,
                     TipoEmpleado = e.TipoEmpleado != null ? e.TipoEmpleado.Nombre : "Sin tipo",
                     TieneUsuario = e.Usuario != null,
-                    IdTipEmp = e.IdTipEmp // ← Agregar esto para editar
+                    IdTipEmp = e.IdTipEmp 
                 })
                 .FirstOrDefaultAsync();
 
@@ -75,8 +75,6 @@ namespace ProyectoAPI.Controllers
         {
             if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
-
-            // Busca coincidencias en UNA sola consulta a la BD
             var coincidencia = await context.Empleados
                 .Where(x => x.Nombre == dto.Nombre
                          || x.Dni == dto.Dni
@@ -106,7 +104,7 @@ namespace ProyectoAPI.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            // Crear empleado
+            
             var empleado = new Empleado
             {
                 Nombre = dto.Nombre,
@@ -149,7 +147,7 @@ namespace ProyectoAPI.Controllers
                 return NotFound();
             }
 
-            // VALIDAR NOMBRE
+           
             var existeNombre = await context.Empleados
                 .AnyAsync(x => x.Nombre == dto.Nombre && x.IdEmp != id);
 
@@ -160,7 +158,7 @@ namespace ProyectoAPI.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            // VALIDAR DNI
+            
             var existeDni = await context.Empleados
                 .AnyAsync(x => x.Dni == dto.Dni && x.IdEmp != id);
 
@@ -171,7 +169,6 @@ namespace ProyectoAPI.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            // VALIDAR EMAIL
             var existeEmail = await context.Empleados
                 .AnyAsync(x => x.Email == dto.Email && x.IdEmp != id);
 
@@ -182,7 +179,7 @@ namespace ProyectoAPI.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            // ACTUALIZAR
+           
             empleado.Nombre = dto.Nombre;
             empleado.Apellido = dto.Apellido;
             empleado.Dni = dto.Dni;

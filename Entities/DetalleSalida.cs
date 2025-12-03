@@ -17,7 +17,7 @@ namespace ProyectoAPI.Entities
         [ForeignKey("IdSalida")]
         public Salida? Salida { get; set; }
 
-        // Relación con Producto (aunque no está explícito en tu diagrama)
+        // Relación con Producto 
         public int IdProducto { get; set; }
 
         [ForeignKey("IdProducto")]

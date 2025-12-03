@@ -22,7 +22,7 @@ namespace ProyectoAPI.Controllers
             return await context.Proveedores.ToListAsync();
         }
 
-        // Obtener solo proveedores activos
+       
         [HttpGet("activos")]
         public async Task<ActionResult<List<Proveedor>>> GetActivos()
         {
@@ -62,7 +62,6 @@ namespace ProyectoAPI.Controllers
             return NoContent();
         }
 
-        // Cambiar estado del proveedor
         [HttpPatch("{id:int}/estado")]
         public async Task<ActionResult> CambiarEstado(int id, [FromBody] string estado)
         {

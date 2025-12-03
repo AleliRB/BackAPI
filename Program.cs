@@ -10,6 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var OrigenesPermitidos=builder.Configuration.GetValue<string>("OrigenesPermitidos")!.Split(",");
+
+    
 //CORS
 builder.Services.AddCors(opciones =>
 {

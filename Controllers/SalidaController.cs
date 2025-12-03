@@ -16,7 +16,6 @@ namespace ProyectoAPI.Controllers
             this.context = context;
         }
 
-        // Obtener todas con información del empleado
         [HttpGet]
         public async Task<ActionResult<List<object>>> Get()
         {
@@ -69,7 +68,7 @@ namespace ProyectoAPI.Controllers
             return Ok(salida);
         }
 
-        // Obtener salidas por empleado
+
         [HttpGet("empleado/{idEmp:int}")]
         public async Task<ActionResult<List<Salida>>> GetByEmpleado(int idEmp)
         {
@@ -79,7 +78,6 @@ namespace ProyectoAPI.Controllers
                 .ToListAsync();
         }
 
-        // Obtener salidas pendientes de devolución
         [HttpGet("pendientes")]
         public async Task<ActionResult<List<object>>> GetPendientes()
         {
@@ -100,7 +98,7 @@ namespace ProyectoAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Salida salida)
         {
-            // Verificar que el empleado existe
+            
             var empleadoExiste = await context.Empleados.AnyAsync(e => e.IdEmp == salida.IdEmp);
             if (!empleadoExiste)
             {
@@ -126,7 +124,7 @@ namespace ProyectoAPI.Controllers
             return NoContent();
         }
 
-        // Registrar devolución
+        
         [HttpPatch("{id:int}/devolucion")]
         public async Task<ActionResult> RegistrarDevolucion(int id, [FromBody] DateTime fechaDevolucion)
         {
@@ -141,7 +139,6 @@ namespace ProyectoAPI.Controllers
 
           
 
-            // Actualizar stock de productos
             if (salida.DetallesSalidas != null)
             {
                 foreach (var detalle in salida.DetallesSalidas)

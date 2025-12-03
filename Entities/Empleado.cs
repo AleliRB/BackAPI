@@ -33,10 +33,10 @@ namespace ProyectoAPI.Entities
         [ForeignKey("IdTipEmp")]
         public TipoEmpleado? TipoEmpleado { get; set; }
 
-        // Relación 1:1 con Usuario (opcional)
+        // Relación 1:1 con Usuario 
         public Usuario? Usuario { get; set; }
 
-        // Relación con Salidas (un empleado puede generar varias salidas)
+        // Relación con Salidas 
         public ICollection<Salida>? Salidas { get; set; }
 
     }

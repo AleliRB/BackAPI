@@ -22,6 +22,6 @@
         public string Direccion { get; set; } = string.Empty;
         public string TipoEmpleado { get; set; } = string.Empty;
         public bool TieneUsuario { get; set; }
-        public int IdTipEmp { get; set; } // ← Para editar
+        public int IdTipEmp { get; set; } 
     }
 }

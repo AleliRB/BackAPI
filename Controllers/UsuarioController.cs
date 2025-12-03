@@ -93,9 +93,9 @@ namespace ProyectoAPI.Controllers
                 return BadRequest("Este empleado ya tiene un usuario asignado");
             }
 
-            // TODO: Aquí deberías hashear la contraseña con BCrypt
-            // usuario.ContraseñaHash = BCrypt.Net.BCrypt.HashPassword(contraseñaPlana);
 
+            // Evitar error de NULL en UltimoAcceso
+            usuario.UltimoAcceso = DateTime.Now;
             context.Add(usuario);
             await context.SaveChangesAsync();
             return CreatedAtRoute("ObtenerUsuarioPorId", new { id = usuario.IdUser }, usuario);
@@ -140,4 +140,4 @@ namespace ProyectoAPI.Controllers
             return NoContent();
         }
     }
-}
+}   

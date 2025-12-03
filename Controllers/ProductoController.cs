@@ -16,7 +16,7 @@ namespace ProyectoAPI.Controllers
             this.context = context;
         }
 
-        // Obtener todos con información de categoría y proveedor
+        
         [HttpGet]
         public async Task<ActionResult<List<object>>> Get()
         {
@@ -70,14 +70,14 @@ namespace ProyectoAPI.Controllers
             return Ok(producto);
         }
 
-        // Obtener productos por categoría
+        
         [HttpGet("categoria/{idCategoria:int}")]
         public async Task<ActionResult<List<Producto>>> GetByCategoria(int idCategoria)
         {
             return await context.Productos.Where(p => p.IdCategoria == idCategoria).ToListAsync();
         }
 
-        // Obtener productos con stock bajo (menos del 20% del total)
+        
         [HttpGet("stockbajo")]
         public async Task<ActionResult<List<object>>> GetStockBajo()
         {
@@ -103,7 +103,7 @@ namespace ProyectoAPI.Controllers
             if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
 
-            // Validar nombre duplicado
+            
             var existeNombre = await context.Productos.AnyAsync(p => p.Nombre == producto.Nombre);
             if (existeNombre)
             {
@@ -112,7 +112,7 @@ namespace ProyectoAPI.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            // Validar existencia de categoría
+           
             var categoriaExiste = await context.Categorias.AnyAsync(c => c.IdCat == producto.IdCategoria);
             if (!categoriaExiste)
             {
@@ -120,7 +120,6 @@ namespace ProyectoAPI.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            // Validar existencia de proveedor
             var proveedorExiste = await context.Proveedores.AnyAsync(p => p.Id == producto.IdProveedor);
             if (!proveedorExiste)
             {
@@ -143,12 +142,11 @@ namespace ProyectoAPI.Controllers
             if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
 
-            // Validar existencia del producto
+          
             var productoBD = await context.Productos.FindAsync(id);
             if (productoBD == null)
                 return NotFound();
 
-            // Validar nombre duplicado (excluyendo el mismo producto)
             var existeNombre = await context.Productos
                 .AnyAsync(p => p.Nombre == producto.Nombre && p.IdProd != id);
 
@@ -159,7 +157,6 @@ namespace ProyectoAPI.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            // Validar existencia de categoría
             var categoriaExiste = await context.Categorias.AnyAsync(c => c.IdCat == producto.IdCategoria);
             if (!categoriaExiste)
             {
@@ -168,7 +165,6 @@ namespace ProyectoAPI.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            // Validar existencia de proveedor
             var proveedorExiste = await context.Proveedores.AnyAsync(p => p.Id == producto.IdProveedor);
             if (!proveedorExiste)
             {
@@ -177,7 +173,7 @@ namespace ProyectoAPI.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            // Mapear valores
+            
             productoBD.Nombre = producto.Nombre;
             productoBD.Descripcion = producto.Descripcion;
             productoBD.IdCategoria = producto.IdCategoria;
@@ -189,7 +185,7 @@ namespace ProyectoAPI.Controllers
         }
 
 
-        // Actualizar solo el stock
+       
         [HttpPatch("{id:int}/stock")]
         public async Task<ActionResult> ActualizarStock(int id, [FromBody] int nuevoStock)
         {
