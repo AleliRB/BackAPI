@@ -7,10 +7,10 @@ namespace ProyectoAPI.Entities
     {
         [Key]
         public int IdSalida { get; set; }
-
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         [StringLength(200)]
         public required string DestinoSalida { get; set; }
-
+        [Required]
         public DateTime FechaSalida { get; set; }
 
 

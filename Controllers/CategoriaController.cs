@@ -34,8 +34,16 @@ namespace ProyectoAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Categoria categoria)
+        public async Task<IActionResult> Post([FromBody] Categoria categoria)
         {
+            var yaexisteCategoriaConNombre = await context.Categorias.AnyAsync(x => x.Descripcion == categoria.Descripcion);
+            if (yaexisteCategoriaConNombre)
+            {
+                var mensajeDeError = $"Ya existe una categoria con el nombre {categoria.Descripcion}";
+                ModelState.AddModelError(nameof(categoria.Descripcion), mensajeDeError);
+                return ValidationProblem(ModelState);
+            }
+
             context.Add(categoria);
             await context.SaveChangesAsync();
             return CreatedAtRoute("ObtenerCategoriaPorId", new { id = categoria.IdCat }, categoria);
@@ -44,11 +52,25 @@ namespace ProyectoAPI.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, [FromBody] Categoria categoria)
         {
+
             var existe = await context.Categorias.AnyAsync(x => x.IdCat == id);
             if (!existe)
             {
                 return NotFound();
             }
+
+            var yaExisteCategoriaConNombre= await context.Categorias.AnyAsync(
+                x=> x.Descripcion==categoria.Descripcion && x.IdCat != id );
+            var yaexisteCategoriaConNombre = await context.Categorias.AnyAsync(x => x.Descripcion == categoria.Descripcion);
+            if (yaexisteCategoriaConNombre)
+            {
+                var mensajeDeError = $"Ya existe una categoria con el nombre {categoria.Descripcion}";
+                ModelState.AddModelError(nameof(categoria.Descripcion), mensajeDeError);
+                return ValidationProblem(ModelState);
+            }
+
+
+
             categoria.IdCat = id;
             context.Update(categoria);
             await context.SaveChangesAsync();

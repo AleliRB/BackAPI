@@ -8,17 +8,19 @@ namespace ProyectoAPI.Entities
         [Key]
         public int IdProd { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         [StringLength(100)]
         public required string Nombre { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         [StringLength(100)]
         public required string Ubicacion { get; set; }
-
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         [StringLength(200)]
         public required string Descripcion { get; set; }
-
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public int StockTotal { get; set; }
-
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public int StockActual { get; set; }
 
         // Relación con Categoria

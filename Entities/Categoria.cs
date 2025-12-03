@@ -7,7 +7,9 @@ namespace ProyectoAPI.Entities
         [Key]
         public int IdCat { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         [StringLength(100)]
+
         public required string Descripcion { get; set; }
 
         // Relación inversa
