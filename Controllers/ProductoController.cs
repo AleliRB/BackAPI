@@ -100,39 +100,94 @@ namespace ProyectoAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Producto producto)
         {
-            // Verificar que la categoría existe
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
+            // Validar nombre duplicado
+            var existeNombre = await context.Productos.AnyAsync(p => p.Nombre == producto.Nombre);
+            if (existeNombre)
+            {
+                ModelState.AddModelError(nameof(Producto.Nombre),
+                    $"Ya existe un producto con el nombre {producto.Nombre}");
+                return ValidationProblem(ModelState);
+            }
+
+            // Validar existencia de categoría
             var categoriaExiste = await context.Categorias.AnyAsync(c => c.IdCat == producto.IdCategoria);
             if (!categoriaExiste)
             {
-                return BadRequest("La categoría no existe");
+                ModelState.AddModelError(nameof(Producto.IdCategoria), "La categoría no existe");
+                return ValidationProblem(ModelState);
             }
 
-            // Verificar que el proveedor existe
+            // Validar existencia de proveedor
             var proveedorExiste = await context.Proveedores.AnyAsync(p => p.Id == producto.IdProveedor);
             if (!proveedorExiste)
             {
-                return BadRequest("El proveedor no existe");
+                ModelState.AddModelError(nameof(Producto.IdProveedor), "El proveedor no existe");
+                return ValidationProblem(ModelState);
             }
-           
 
             context.Add(producto);
             await context.SaveChangesAsync();
-            return CreatedAtRoute("ObtenerProductoPorId", new { id = producto.IdProd }, producto);
+
+            return CreatedAtRoute("ObtenerProductoPorId",
+                new { id = producto.IdProd },
+                producto);
         }
+
 
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, [FromBody] Producto producto)
         {
-            var existe = await context.Productos.AnyAsync(x => x.IdProd == id);
-            if (!existe)
-            {
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
+            // Validar existencia del producto
+            var productoBD = await context.Productos.FindAsync(id);
+            if (productoBD == null)
                 return NotFound();
+
+            // Validar nombre duplicado (excluyendo el mismo producto)
+            var existeNombre = await context.Productos
+                .AnyAsync(p => p.Nombre == producto.Nombre && p.IdProd != id);
+
+            if (existeNombre)
+            {
+                ModelState.AddModelError(nameof(Producto.Nombre),
+                    $"Ya existe otro producto con el nombre {producto.Nombre}");
+                return ValidationProblem(ModelState);
             }
-            producto.IdProd = id;
-            context.Update(producto);
+
+            // Validar existencia de categoría
+            var categoriaExiste = await context.Categorias.AnyAsync(c => c.IdCat == producto.IdCategoria);
+            if (!categoriaExiste)
+            {
+                ModelState.AddModelError(nameof(Producto.IdCategoria),
+                    "La categoría no existe");
+                return ValidationProblem(ModelState);
+            }
+
+            // Validar existencia de proveedor
+            var proveedorExiste = await context.Proveedores.AnyAsync(p => p.Id == producto.IdProveedor);
+            if (!proveedorExiste)
+            {
+                ModelState.AddModelError(nameof(Producto.IdProveedor),
+                    "El proveedor no existe");
+                return ValidationProblem(ModelState);
+            }
+
+            // Mapear valores
+            productoBD.Nombre = producto.Nombre;
+            productoBD.Descripcion = producto.Descripcion;
+            productoBD.IdCategoria = producto.IdCategoria;
+            productoBD.IdProveedor = producto.IdProveedor;
+
             await context.SaveChangesAsync();
+
             return NoContent();
         }
+
 
         // Actualizar solo el stock
         [HttpPatch("{id:int}/stock")]
